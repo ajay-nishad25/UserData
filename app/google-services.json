@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "833971708647",
+    "project_id": "userdata-18550",
+    "storage_bucket": "userdata-18550.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833971708647:android:4cafd29538918b01887842",
+        "android_client_info": {
+          "package_name": "com.ktech.userdata"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833971708647-dnvbnj8qfh0m5u3l14q7jqh2vm4ns3m3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5j7ma7opctFgQbicre3sUn3CEHAF7qVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833971708647-dnvbnj8qfh0m5u3l14q7jqh2vm4ns3m3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">UserData</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_mobileNo">Mobile no.</string>
+    <string name="hint_rikshawNo">Rikshaw no.</string>
+
+</resources>

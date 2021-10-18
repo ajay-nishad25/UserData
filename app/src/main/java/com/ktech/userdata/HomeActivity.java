@@ -109,6 +109,12 @@ public class HomeActivity extends AppCompatActivity {
                 aUserImage.setImageURI(Uri.fromFile(f));
                 Log.d("tag", "Absolute Url of Image is : " + Uri.fromFile(f));
 
+                aUpload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
 
             }
 
@@ -154,5 +160,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
 }
