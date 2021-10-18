@@ -58,6 +58,8 @@ public class HomeActivity extends AppCompatActivity {
         aUpload = findViewById(R.id.upload_Button_aHome);
         aViewDatabase = findViewById(R.id.viewDatabase_Button_aHome);
 
+
+
         //Capturing user image
         aAddPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +87,6 @@ public class HomeActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
         }
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -98,7 +99,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -109,13 +109,12 @@ public class HomeActivity extends AppCompatActivity {
                 aUserImage.setImageURI(Uri.fromFile(f));
                 Log.d("tag", "Absolute Url of Image is : " + Uri.fromFile(f));
 
+
             }
 
         }
 
     }
-
-
 
     private File createImageFile() throws IOException {
         // Create an image file name
@@ -155,4 +154,5 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
     }
+
 }
