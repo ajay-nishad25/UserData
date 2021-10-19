@@ -26,10 +26,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -62,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
 
     //Datatype related
     String currentPhotoPath;
+    String gender;
 
 
     @Override
@@ -94,6 +93,18 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        //Clearing above data
+        aClearData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aName.setText(null);
+                aEmail.setText(null);
+                aMobileNo.setText(null);
+                aRikshawNo.setText(null);
+                aAddress.setText(null);
+                aUserImage.setVisibility(View.GONE);
+            }
+        });
 
         // opening ViewDatabaseActivity
         aViewDatabase.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-    }
+    }    // OnCreate end's here
 
     // asking user for camera permission
     private void askCameraPermission() {
@@ -142,9 +153,10 @@ public class HomeActivity extends AppCompatActivity {
                 aUpload.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        uploadAllData(Uri.fromFile(f));
+                        uploadAllData(f.getName(), Uri.fromFile(f));
                     }
                 });
+
 
             }
 
@@ -192,92 +204,100 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     // taking image url and validating given data and putting to database
-    public void uploadAllData(Uri imageUri) {
+    public void uploadAllData(String fileName, Uri imageUri) {
 
-        if (imageUri==null){
-            Toast.makeText(getApplicationContext(), "Image is Required", Toast.LENGTH_SHORT).show();
+        //start validating given data of user
+        String tempName, tempEmail, tempMobileNo, tempRikshawNo, tempAddress;
+        tempName = aName.getText().toString();
+        tempEmail = aEmail.getText().toString();
+        tempMobileNo = aMobileNo.getText().toString();
+        tempRikshawNo = aRikshawNo.getText().toString();
+        tempAddress = aAddress.getText().toString();
 
+
+        if (TextUtils.isEmpty(tempName)) {
+            aName.setError("Required");
+            return;
+        }
+        if (TextUtils.isEmpty(tempEmail)) {
+            aEmail.setError("Required");
+            return;
+        }
+        if (TextUtils.isEmpty(tempMobileNo)) {
+            aMobileNo.setError("Required");
+            return;
         }
 
-        if (imageUri != null) {
-
-            // making progressDialog visible
-            progressDialog.setTitle("Uploading data...");
-            progressDialog.setMessage("Please wait for a second");
-            progressDialog.setCancelable(false);
-            progressDialog.create();
-            progressDialog.show();
-
-
-            storageReference.child("userImages/" + System.currentTimeMillis()).putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    //start validating given data of user
-                                    String tempName, tempEmail, tempMobileNo, tempRikshawNo, tempAddress;
-                                    tempName = aName.getText().toString();
-                                    tempEmail = aEmail.getText().toString();
-                                    tempMobileNo = aMobileNo.getText().toString();
-                                    tempRikshawNo = aRikshawNo.getText().toString();
-                                    tempAddress = aAddress.getText().toString();
-
-
-                                    if (TextUtils.isEmpty(tempName)) {
-                                        aName.setError("Required");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(tempEmail)) {
-                                        aEmail.setError("Required");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(tempMobileNo)) {
-                                        aMobileNo.setError("Required");
-                                        return;
-                                    }
-                                    if (tempMobileNo.length() > 10) {
-                                        aMobileNo.setError("Enter Valid no.");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(tempRikshawNo)) {
-                                        aRikshawNo.setError("Required");
-                                        return;
-                                    }
-                                    if (TextUtils.isEmpty(tempAddress)) {
-                                        aAddress.setError("Required");
-                                        return;
-                                    }
-
-                                    UploadDataModel uploadDataModel = new UploadDataModel(uri.toString(),tempName, tempEmail, tempMobileNo, tempRikshawNo, tempAddress);
-
-                                    databaseReference.child(tempMobileNo).setValue(uploadDataModel).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            progressDialog.dismiss();
-                                            Toast.makeText(getApplicationContext(), "Data uploading is successful", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }).addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            progressDialog.dismiss();
-                                            Toast.makeText(getApplicationContext(), "Error " + e.getMessage(), Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-
-                                }
-                            });
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "oops ! " + e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-
+        if (tempMobileNo.length() < 10) {
+            aMobileNo.setError("Enter Valid no.");
+            return;
         }
+        if (TextUtils.isEmpty(tempRikshawNo)) {
+            aRikshawNo.setError("Required");
+            return;
+        }
+        if (TextUtils.isEmpty(tempAddress)) {
+            aAddress.setError("Required");
+            return;
+        }
+        if (aMale.isChecked()){
+            gender = "Male";
+        }
+        if (aFemale.isChecked()){
+            gender = "Female";
+        }
+
+        // making progressDialog visible
+        progressDialog.setTitle("Uploading data...");
+        progressDialog.setMessage("Please wait for a second");
+        progressDialog.setCancelable(false);
+        progressDialog.create();
+        progressDialog.show();
+
+        //uploading user image to firebase storage
+        StorageReference image = storageReference.child("userImages/ " + fileName);
+        image.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                //downloading user image url
+                image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        //Now putting all data to firebase realtime database including user image url
+                        UploadDataModel uploadDataModel = new UploadDataModel(uri.toString(), tempName, tempEmail, tempMobileNo, tempRikshawNo, tempAddress);
+                        databaseReference.child("DATA").child(tempMobileNo).setValue(uploadDataModel).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                //Vanishing out all data from activity
+                                aName.setText(null);
+                                aEmail.setText(null);
+                                aMobileNo.setText(null);
+                                aRikshawNo.setText(null);
+                                aAddress.setText(null);
+                                aUserImage.setVisibility(View.GONE);
+                                //dismissing progressDialog form screen
+                                progressDialog.dismiss();
+                                //Toast to announce that task is successful
+                                Toast.makeText(getApplicationContext(), "upload successful", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "upload failed !", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "upload successful", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
