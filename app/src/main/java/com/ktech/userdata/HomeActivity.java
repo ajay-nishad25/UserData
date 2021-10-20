@@ -46,6 +46,9 @@ public class HomeActivity extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
+    //Imported Classes if any
+
+
     //Constants related
     public static final int CAMERA_PERMISSION_CODE = 100;
     public static final int CAMERA_REQUEST_CODE = 101;
@@ -240,10 +243,10 @@ public class HomeActivity extends AppCompatActivity {
             aAddress.setError("Required");
             return;
         }
-        if (aMale.isChecked()){
+        if (aMale.isChecked()) {
             gender = "Male";
         }
-        if (aFemale.isChecked()){
+        if (aFemale.isChecked()) {
             gender = "Female";
         }
 
@@ -265,7 +268,7 @@ public class HomeActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
 
                         //Now putting all data to firebase realtime database including user image url
-                        UploadDataModel uploadDataModel = new UploadDataModel(uri.toString(), tempName, tempEmail, tempMobileNo, tempRikshawNo, tempAddress);
+                        UploadDataModel uploadDataModel = new UploadDataModel(uri.toString(), tempName, tempEmail, tempMobileNo, tempRikshawNo, gender, tempAddress);
                         databaseReference.child("DATA").child(tempMobileNo).setValue(uploadDataModel).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {

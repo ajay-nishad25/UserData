@@ -2,18 +2,19 @@ package com.ktech.userdata.DataModel;
 
 public class UploadDataModel {
 
-    private String mUserImageUrl,mName, mEmail, mMobileNo, mRikshawNo, mAddress;
+    private String mUserImageUrl, mName, mEmail, mMobileNo, mRikshawNo, mGender, mAddress;
 
     public UploadDataModel() {
         //Empty constructor
     }
 
-    public UploadDataModel(String mUserImageUrl,String mName, String mEmail, String mMobileNo, String mRikshawNo, String mAddress) {
+    public UploadDataModel(String mUserImageUrl, String mName, String mEmail, String mMobileNo, String mRikshawNo, String mGender, String mAddress) {
         this.mUserImageUrl = mUserImageUrl;
         this.mName = mName;
         this.mEmail = mEmail;
         this.mMobileNo = mMobileNo;
         this.mRikshawNo = mRikshawNo;
+        this.mGender = mGender;
         this.mAddress = mAddress;
     }
 
@@ -55,6 +56,14 @@ public class UploadDataModel {
 
     public void setmRikshawNo(String mRikshawNo) {
         this.mRikshawNo = mRikshawNo;
+    }
+
+    public String getmGender() {
+        return mGender;
+    }
+
+    public void setmGender(String mGender) {
+        this.mGender = mGender;
     }
 
     public String getmAddress() {

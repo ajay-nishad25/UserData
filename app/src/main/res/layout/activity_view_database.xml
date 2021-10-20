@@ -5,11 +5,30 @@
     android:layout_height="match_parent"
     tools:context=".ViewDatabaseActivity">
 
+    <TextView
+        android:id="@+id/totalData_textView_aViewDatabase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:text="Total User's :" />
+
+
+    <TextView
+        android:id="@+id/totalDataValue_textView_aViewDatabase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/totalData_textView_aViewDatabase"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="-27dp"
+        android:layout_marginRight="-27dp"
+        android:text="232" />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_aViewDatabase"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recyclerView_aViewDatabase"
-        android:layout_margin="4dp"
-        />
+        android:layout_below="@+id/totalData_textView_aViewDatabase"
+        android:layout_margin="4dp" />
 
 </RelativeLayout>
